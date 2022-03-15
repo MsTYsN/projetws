@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Projetws"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".RecycleActivity"
+            android:name=".AffichActivity"
             android:exported="false" />
         <activity
             android:name=".AddEtudiant"

@@ -96,7 +96,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
         }
 
         if(v == affich) {
-            startActivity(new Intent(AddEtudiant.this, RecycleActivity.class));
+            startActivity(new Intent(AddEtudiant.this, AffichActivity.class));
         }
 
     }
