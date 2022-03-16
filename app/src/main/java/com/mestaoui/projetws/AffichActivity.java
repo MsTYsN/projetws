@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,8 +36,8 @@ public class AffichActivity extends AppCompatActivity{
     private static final String TAG = "RecycleActivity";
     private ListView liste;
     RequestQueue requestQueue;
-    String loadUrl = "http://192.168.1.107/phpvolley/ws/loadEtudiant.php";
-    String deleteUrl = "http://192.168.1.107/phpvolley/ws/deleteEtudiant.php";
+    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadEtudiant.php";
+    String deleteUrl = "http://192.168.100.162/phpvolley/ws/deleteEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,11 @@ public class AffichActivity extends AppCompatActivity{
 
         liste = findViewById(R.id.liste);
 
+        loadData();
 
+    }
+
+    public void loadData() {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest request = new StringRequest(Request.Method.POST,
                 loadUrl, new Response.Listener<String>() {
@@ -69,19 +75,21 @@ public class AffichActivity extends AppCompatActivity{
                                     @Override
                                     public void onResponse(String response) {
                                         Log.d(TAG, response);
-                                        Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
-                                        Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
-                                        liste.setAdapter(new EtudiantAdapter(AffichActivity.this, (List<Etudiant>) etudiants));
+                                        //Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
+                                        //Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
+                                        loadData();
+                                        Toast.makeText(AffichActivity.this, "Suppression avec succès", Toast.LENGTH_SHORT).show();
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(AffichActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }) {
                                     @Override
                                     protected Map<String, String> getParams() throws AuthFailureError {
-                                        HashMap<String, String> params = new HashMap<String, String>();
-                                        params.put("id", String.valueOf(id));
+                                        HashMap<String, String> params = new HashMap<>();
+                                        params.put("id", idE.getText().toString());
                                         return params;
                                     }
                                 };
@@ -91,7 +99,9 @@ public class AffichActivity extends AppCompatActivity{
                         alertDialogBuilder.setNegativeButton("Modifier", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                Intent intent = new Intent(AffichActivity.this, EditActivity.class);
+                                intent.putExtra("idE", idE.getText().toString());
+                                startActivity(intent);
                             }
                         });
 

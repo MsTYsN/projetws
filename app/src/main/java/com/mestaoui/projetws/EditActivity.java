@@ -2,7 +2,6 @@ package com.mestaoui.projetws;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,41 +27,73 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddEtudiant extends AppCompatActivity implements View.OnClickListener{
-    private static final String TAG = "AddEtudiant";
+public class EditActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = "EditActivity";
     private EditText nom;
     private EditText prenom;
     private Spinner ville;
     private RadioButton m;
     private RadioButton f;
-    private Button add,affich;
+    private Button update;
+    private int id = 0;
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.100.162/phpvolley/ws/createEtudiant.php";
-
+    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadOne.php";
+    String updateUrl = "http://192.168.100.162/phpvolley/ws/updateEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_edit);
 
-        nom = findViewById(R.id.nom);
-        prenom = findViewById(R.id.prenom);
-        ville = findViewById(R.id.ville);
-        add = findViewById(R.id.add);
-        affich = findViewById(R.id.affich);
+        nom = findViewById(R.id.nomE);
+        prenom = findViewById(R.id.prenomE);
+        ville = findViewById(R.id.villeE);
+        update = findViewById(R.id.update);
         m = findViewById(R.id.m);
         f = findViewById(R.id.f);
-        add.setOnClickListener(this);
-        affich.setOnClickListener(this);
 
+        id = Integer.parseInt(getIntent().getStringExtra("idE"));
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest request = new StringRequest(Request.Method.POST,
+                loadUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, response);
+                Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
+                Etudiant e = new Gson().fromJson(response, type);
+                nom.setText(e.getNom());
+                prenom.setText(e.getPrenom());
+                if(e.getSexe() == "homme") {
+                    m.setSelected(true);
+                }else {
+                    f.setSelected(true);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(EditActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id));
+                return params;
+            }
+        };
+        requestQueue.add(request);
+
+        update.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Log.d("ok","ok");
-        if (v == add) {
+        if (v == update) {
             requestQueue = Volley.newRequestQueue(getApplicationContext());
             StringRequest request = new StringRequest(Request.Method.POST,
-                    insertUrl, new Response.Listener<String>() {
+                    updateUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     Log.d(TAG, response);
@@ -71,12 +102,12 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                     for(Etudiant e : etudiants){
                         Log.d(TAG, e.toString());
                     }
-                    Toast.makeText(AddEtudiant.this, "Ajout avec succès", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditActivity.this, "Modification avec succès", Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(AddEtudiant.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }) {
                 @Override
@@ -87,6 +118,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                     else
                         sexe = "femme";
                     HashMap<String, String> params = new HashMap<String, String>();
+                    params.put("id", String.valueOf(id));
                     params.put("nom", nom.getText().toString());
                     params.put("prenom", prenom.getText().toString());
                     params.put("ville", ville.getSelectedItem().toString());
@@ -96,10 +128,5 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
             };
             requestQueue.add(request);
         }
-
-        if(v == affich) {
-            startActivity(new Intent(AddEtudiant.this, AffichActivity.class));
-        }
-
     }
 }
