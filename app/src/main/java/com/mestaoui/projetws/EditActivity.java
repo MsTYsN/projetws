@@ -2,6 +2,7 @@ package com.mestaoui.projetws;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Button update;
     private int id = 0;
     RequestQueue requestQueue;
-    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadOne.php";
+    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadEtudiant.php";
     String updateUrl = "http://192.168.100.162/phpvolley/ws/updateEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         prenom = findViewById(R.id.prenomE);
         ville = findViewById(R.id.villeE);
         update = findViewById(R.id.update);
-        m = findViewById(R.id.m);
-        f = findViewById(R.id.f);
+        m = findViewById(R.id.mE);
+        f = findViewById(R.id.fE);
 
         id = Integer.parseInt(getIntent().getStringExtra("idE"));
 
@@ -60,13 +61,18 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(String response) {
                 Log.d(TAG, response);
                 Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
-                Etudiant e = new Gson().fromJson(response, type);
-                nom.setText(e.getNom());
-                prenom.setText(e.getPrenom());
-                if(e.getSexe() == "homme") {
-                    m.setSelected(true);
-                }else {
-                    f.setSelected(true);
+                Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
+                for(Etudiant e : etudiants) {
+                    if(e.getId() == id) {
+                        nom.setText(e.getNom());
+                        prenom.setText(e.getPrenom());
+                        if(e.getSexe() == "homme") {
+                            m.setSelected(true);
+                        }else {
+                            f.setSelected(true);
+                        }
+                        break;
+                    }
                 }
             }
         }, new Response.ErrorListener() {
@@ -97,12 +103,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onResponse(String response) {
                     Log.d(TAG, response);
-                    Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
-                    Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
-                    for(Etudiant e : etudiants){
-                        Log.d(TAG, e.toString());
-                    }
                     Toast.makeText(EditActivity.this, "Modification avec succès", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(EditActivity.this, AffichActivity.class));
                 }
             }, new Response.ErrorListener() {
                 @Override
