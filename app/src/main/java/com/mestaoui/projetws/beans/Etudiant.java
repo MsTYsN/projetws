@@ -6,14 +6,16 @@ public class Etudiant {
     private String prenom;
     private String ville;
     private String sexe;
+    private String img;
     public Etudiant() {
     }
-    public Etudiant(int id, String nom, String prenom, String ville, String sexe) {
+    public Etudiant(int id, String nom, String prenom, String ville, String sexe, String img) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.ville = ville;
         this.sexe = sexe;
+        this.img = img;
     }
     public int getId() {
         return id;
@@ -46,4 +48,11 @@ public class Etudiant {
         this.sexe = sexe;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 }

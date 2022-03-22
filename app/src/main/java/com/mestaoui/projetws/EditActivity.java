@@ -38,8 +38,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Button update;
     private int id = 0;
     RequestQueue requestQueue;
-    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadEtudiant.php";
-    String updateUrl = "http://192.168.100.162/phpvolley/ws/updateEtudiant.php";
+    String loadUrl = "http://192.168.60.111/phpvolley/ws/loadEtudiant.php";
+    String updateUrl = "http://192.168.60.111/phpvolley/ws/updateEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

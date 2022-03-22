@@ -3,6 +3,7 @@ package com.mestaoui.projetws;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,19 +35,17 @@ import java.util.Map;
 
 public class AffichActivity extends AppCompatActivity{
     private static final String TAG = "RecycleActivity";
-    private ListView liste;
+    private RecyclerView recycle;
     RequestQueue requestQueue;
-    String loadUrl = "http://192.168.100.162/phpvolley/ws/loadEtudiant.php";
-    String deleteUrl = "http://192.168.100.162/phpvolley/ws/deleteEtudiant.php";
+    String loadUrl = "http://192.168.60.111/phpvolley/ws/loadEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affich);
 
-        liste = findViewById(R.id.liste);
+        recycle = findViewById(R.id.recycle);
 
         loadData();
-
     }
 
     public void loadData() {
@@ -58,57 +57,8 @@ public class AffichActivity extends AppCompatActivity{
                 Log.d(TAG, response);
                 Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
                 Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
-                liste.setAdapter(new EtudiantAdapter(AffichActivity.this, (List<Etudiant>) etudiants));
-                liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        final TextView idE = view.findViewById(R.id.idE);
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AffichActivity.this);
-                        alertDialogBuilder.setMessage("Veuillez choisir une option :");
-
-                        alertDialogBuilder.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                requestQueue = Volley.newRequestQueue(AffichActivity.this);
-                                StringRequest request = new StringRequest(Request.Method.POST,
-                                        deleteUrl, new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Log.d(TAG, response);
-                                        //Type type = new TypeToken<Collection<Etudiant>>(){}.getType();
-                                        //Collection<Etudiant> etudiants = new Gson().fromJson(response, type);
-                                        loadData();
-                                        Toast.makeText(AffichActivity.this, "Suppression avec succès", Toast.LENGTH_SHORT).show();
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(AffichActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }) {
-                                    @Override
-                                    protected Map<String, String> getParams() throws AuthFailureError {
-                                        HashMap<String, String> params = new HashMap<>();
-                                        params.put("id", idE.getText().toString());
-                                        return params;
-                                    }
-                                };
-                                requestQueue.add(request);
-                            }
-                        });
-                        alertDialogBuilder.setNegativeButton("Modifier", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(AffichActivity.this, EditActivity.class);
-                                intent.putExtra("idE", idE.getText().toString());
-                                startActivity(intent);
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.show();
-                    }
-                });
+                recycle.setAdapter(new EtudiantAdapter(AffichActivity.this, (List<Etudiant>) etudiants));
+                recycle.setLayoutManager(new LinearLayoutManager(AffichActivity.this));
             }
         }, new Response.ErrorListener() {
             @Override
