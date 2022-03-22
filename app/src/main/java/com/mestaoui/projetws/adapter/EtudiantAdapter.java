@@ -75,7 +75,6 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
                     .apply(new RequestOptions().override(120, 120))
                     .into(holder.image);
         }else {
-            Log.e(TAG, "onBindViewHolder: " +  etudiants.get(position).getImg());
             byte[] decodedString = Base64.decode(etudiants.get(position).getImg(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             Glide
@@ -101,8 +100,9 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
                             @Override
                             public void onResponse(String response) {
                                 Log.d(TAG, response);
+                                etudiants.remove(position);
+                                notifyItemRemoved(position);
                                 Toast.makeText(context, "Suppression avec succès", Toast.LENGTH_SHORT).show();
-                                notifyDataSetChanged();
                             }
                         }, new Response.ErrorListener() {
                             @Override

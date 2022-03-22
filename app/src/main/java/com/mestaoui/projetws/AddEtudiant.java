@@ -36,6 +36,7 @@ import com.google.gson.reflect.TypeToken;
 import com.mestaoui.projetws.beans.Etudiant;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
@@ -107,6 +108,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
         }
         if(v == remove) {
             link = "android.resource://com.mestaoui.projetws/drawable/avatar";
+            bitmap = null;
             Glide
                     .with(getApplicationContext())
                     .load(Uri.parse(link))
@@ -187,6 +189,11 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
                     break;
                 case 1:
                     Uri uri = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Glide
                             .with(getApplicationContext())
                             .load(uri)
