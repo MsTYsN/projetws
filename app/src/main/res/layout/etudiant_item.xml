@@ -3,18 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/teal_700"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageAffich"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:src="@mipmap/ic_launcher"
         app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"
+        app:civ_border_color="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -26,44 +27,52 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageAffich"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         android:text="Nom"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/prenom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/nom"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
         android:text="Prenom"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/nom"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/ville"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
         android:text="Ville"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/prenom"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:textColor="@color/white"
+        android:fontFamily="cursive"
+        app:layout_constraintStart_toEndOf="@+id/imageAffich"
+        app:layout_constraintTop_toBottomOf="@+id/nom" />
 
     <TextView
         android:id="@+id/sexe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="20dp"
         android:text="Sexe"
         android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        android:textColor="@color/white"
+        android:fontFamily="cursive"
         app:layout_constraintStart_toEndOf="@+id/imageAffich"
-        app:layout_constraintTop_toTopOf="@id/nom" />
+        app:layout_constraintTop_toBottomOf="@+id/ville" />
 
     <TextView
         android:id="@+id/idE"

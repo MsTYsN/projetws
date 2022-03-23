@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mestaoui.projetws.adapter.EtudiantAdapter;
@@ -36,14 +37,23 @@ import java.util.Map;
 public class AffichActivity extends AppCompatActivity{
     private static final String TAG = "RecycleActivity";
     private RecyclerView recycle;
+    private FloatingActionButton addItem;
     RequestQueue requestQueue;
-    String loadUrl = "http://192.168.60.111/phpvolley/ws/loadEtudiant.php";
+    String loadUrl = "http://192.168.1.107/phpvolley/ws/loadEtudiant.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affich);
 
         recycle = findViewById(R.id.recycle);
+        addItem = findViewById(R.id.addItem);
+
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AffichActivity.this, AddEtudiant.class));
+            }
+        });
 
         loadData();
     }

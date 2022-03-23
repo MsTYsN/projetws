@@ -5,13 +5,15 @@
       <map>
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/drawable/avatar.xml" value="0.179" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/drawable/close.xml" value="0.179" />
+        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/drawable/ic_baseline_add_40.xml" value="0.179" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/drawable/roundedbutton.xml" value="0.179" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_add.xml" value="0.264" />
-        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_affich.xml" value="0.16983695652173914" />
+        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_affich.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_edit.xml" value="0.16983695652173914" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_main.xml" value="0.16983695652173914" />
         <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/activity_recycle.xml" value="0.16983695652173914" />
-        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/etudiant_item.xml" value="0.16983695652173914" />
+        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/layout/etudiant_item.xml" value="0.4" />
+        <entry key="..\:/AndroidProjects/projetws/app/src/main/res/menu/recyclermenu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

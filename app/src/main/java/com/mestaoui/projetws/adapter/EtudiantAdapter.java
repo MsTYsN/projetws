@@ -29,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mestaoui.projetws.AddEtudiant;
+import com.mestaoui.projetws.EditActivity;
 import com.mestaoui.projetws.R;
 import com.mestaoui.projetws.beans.Etudiant;
 
@@ -44,7 +45,7 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
     private LayoutInflater inflater;
     private Context context;
     RequestQueue requestQueue;
-    String deleteUrl = "http://192.168.60.111/phpvolley/ws/deleteEtudiant.php";
+    String deleteUrl = "http://192.168.1.107/phpvolley/ws/deleteEtudiant.php";
 
     public EtudiantAdapter(Context context, List<Etudiant> etudiants) {
         this.etudiants = etudiants;
@@ -64,15 +65,14 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
         holder.id.setText(etudiants.get(position).getId()+"");
         holder.nom.setText(etudiants.get(position).getNom());
         holder.prenom.setText(etudiants.get(position).getPrenom());
-        holder.ville.setText(etudiants.get(position).getVille());
-        holder.sexe.setText(etudiants.get(position).getSexe());
+        holder.ville.setText("Ville : " + etudiants.get(position).getVille());
+        holder.sexe.setText("Sexe : " + etudiants.get(position).getSexe());
         if(etudiants.get(position).getImg() == null) {
             String link = "android.resource://com.mestaoui.projetws/drawable/avatar";
             Glide
                     .with(context)
                     .load(Uri.parse(link))
-                    .centerCrop()
-                    .apply(new RequestOptions().override(120, 120))
+                    .apply(RequestOptions.fitCenterTransform())
                     .into(holder.image);
         }else {
             byte[] decodedString = Base64.decode(etudiants.get(position).getImg(), Base64.DEFAULT);
@@ -80,8 +80,7 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
             Glide
                     .with(context)
                     .load(decodedByte)
-                    .centerCrop()
-                    .apply(new RequestOptions().override(120, 120))
+                    .apply(RequestOptions.fitCenterTransform())
                     .into(holder.image);
         }
 
@@ -89,9 +88,9 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                alertDialogBuilder.setMessage("Supprimer cet etudiant ?");
+                alertDialogBuilder.setMessage("Choisir une option !");
 
-                alertDialogBuilder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         requestQueue = Volley.newRequestQueue(context);
@@ -120,10 +119,12 @@ public class EtudiantAdapter extends RecyclerView.Adapter<EtudiantAdapter.Etudia
                         requestQueue.add(request);
                     }
                 });
-                alertDialogBuilder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setNegativeButton("Modifier", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        Intent intent = new Intent(context, EditActivity.class);
+                        intent.putExtra("id", holder.id.getText().toString());
+                        context.startActivity(intent);
                     }
                 });
 

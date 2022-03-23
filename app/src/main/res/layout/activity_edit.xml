@@ -1,89 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".AddEtudiant">
+    tools:context=".EditActivity">
 
-    <TextView
-        android:id="@+id/textViewE"
-        style="@style/text"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nom : " />
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/nomE"
-        style="@style/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageE"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/avatar"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/textView2E"
-        style="@style/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Prenom :" />
-
-    <EditText
-        android:id="@+id/prenomE"
-        style="@style/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/textView3E"
-        style="@style/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ville" />
-
-    <Spinner
-        android:id="@+id/villeE"
-        style="@style/input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/villes" />
-
-    <TextView
-        android:id="@+id/textView4E"
-        style="@style/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sexe :" />
-
-    <RadioGroup
-        style="@style/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/mE"
+        <ImageButton
+            android:id="@+id/removeE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="homme" />
+            android:background="@drawable/roundedbutton"
+            app:layout_constraintEnd_toEndOf="@id/imageE"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/imageE"
+            app:layout_constraintTop_toTopOf="@id/imageE"
+            app:srcCompat="@drawable/close" />
 
-        <RadioButton
-            android:id="@+id/fE"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textViewE"
+            style="@style/text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="femme" />
-    </RadioGroup>
+            android:layout_marginTop="20dp"
+            android:text="Nom : "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageE"/>
 
-    <Button
-        android:id="@+id/update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update" />
+        <EditText
+            android:id="@+id/nomE"
+            style="@style/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewE"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView2E"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prenom :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nomE"/>
+
+        <EditText
+            android:id="@+id/prenomE"
+            style="@style/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView2E"/>
+
+        <TextView
+            android:id="@+id/textView3E"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ville"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/prenomE"/>
+
+        <Spinner
+            android:id="@+id/villeE"
+            style="@style/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/villes"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView3E"/>
+
+        <TextView
+            android:id="@+id/textView4E"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sexe :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/villeE"/>
+
+        <RadioGroup
+            android:id="@+id/radioGroupE"
+            style="@style/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView4E">
+
+            <RadioButton
+                android:id="@+id/mE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="homme" />
+
+            <RadioButton
+                android:id="@+id/fE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="femme" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupE"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

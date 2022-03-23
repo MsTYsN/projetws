@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mestaoui.projetws.beans.Etudiant;
@@ -57,7 +59,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
     private Bitmap bitmap = null;
     private String link = "android.resource://com.mestaoui.projetws/drawable/avatar";
     RequestQueue requestQueue;
-    String insertUrl = "http://192.168.60.111/phpvolley/ws/createEtudiant.php";
+    String insertUrl = "http://192.168.1.107/phpvolley/ws/createEtudiant.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,27 +86,11 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         Log.d("ok","ok");
         if(v == img) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddEtudiant.this);
-            alertDialogBuilder.setMessage("Choisir une option !");
-
-            alertDialogBuilder.setPositiveButton("Caméra", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, 0);
-                }
-            });
-            alertDialogBuilder.setNegativeButton("Galerie", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , 1);
-                }
-            });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            ImagePicker.with(this)
+                    .crop()
+                    .compress(1024)
+                    .maxResultSize(1080, 1080)
+                    .start();
         }
         if(v == remove) {
             link = "android.resource://com.mestaoui.projetws/drawable/avatar";
@@ -112,8 +98,7 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
             Glide
                     .with(getApplicationContext())
                     .load(Uri.parse(link))
-                    .centerCrop()
-                    .apply(new RequestOptions().override(120, 120))
+                    .apply(RequestOptions.fitCenterTransform())
                     .into(img);
         }
         if (v == add) {
@@ -168,40 +153,23 @@ public class AddEtudiant extends AppCompatActivity implements View.OnClickListen
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK) {
-            switch(requestCode) {
-                case 0:
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    bitmap = imageBitmap;
-                    Glide
-                            .with(getApplicationContext())
-                            .load(imageBitmap)
-                            .centerCrop()
-                            .apply(new RequestOptions().override(120, 120))
-                            .into(img);
-                    break;
-                case 1:
-                    Uri uri = data.getData();
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Glide
-                            .with(getApplicationContext())
-                            .load(uri)
-                            .centerCrop()
-                            .apply(new RequestOptions().override(120, 120))
-                            .into(img);
-                    break;
+            Uri uri = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            Glide
+                    .with(getApplicationContext())
+                    .load(uri)
+                    .apply(RequestOptions.fitCenterTransform())
+                    .into(img);
         }
     }
 }
